@@ -1,0 +1,17 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using PopulationCensus.Api.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using System.Reflection;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using PopulationCensus.Api.Configurations.Interfaces;
+global using MediatR;
+global using PopulationCensus.Api.Data;
+global using FluentValidation;
+global using PopulationCensus.Api.Shared.Results;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Microsoft.AspNetCore.Mvc;
+global using Carter;
+global using PopulationCensus.Api.Extensions;
+global using PopulationCensus.Api.Data.Models;
+global using PopulationCensus.Api.Shared.CQRS;
