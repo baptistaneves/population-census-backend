@@ -7,8 +7,8 @@ public class RemoveProvinceCommandValidation : AbstractValidator<RemoveProvinceC
     public RemoveProvinceCommandValidation()
     {
         RuleFor(x => x.Id)
-            .NotNull().WithMessage("O Id do campo deve ser informado")
-            .NotEqual(Guid.Empty).WithMessage("O Id do campo deve ser informado");
+            .NotNull().WithMessage(ErrorMessages.IdNotValid)
+            .NotEqual(Guid.Empty).WithMessage(ErrorMessages.IdNotValid);
     }
 }
 
@@ -27,10 +27,13 @@ public class RemoveProvinceHandler
         if (!validationResult.IsSuccess)
             return Result<bool>.Failure(validationResult.Errors!);
 
-        var province = await _context.Provinces.SingleOrDefaultAsync(x => x.Id == command.Id);
+        var province = await _context.Provinces.FirstOrDefaultAsync(x => x.Id == command.Id);
 
-        if (province is null)
+        if (province == default)
             return Result<bool>.Failure(new Error(String.Format(ErrorMessages.NotFound, "província")));
+
+        if(await _context.Municipalities.AnyAsync(x => x.ProvinceId == command.Id))
+            return Result<bool>.Failure(new Error(ErrorMessages.ProvinceCanNotBeRemoved));
 
         _context.Provinces.Remove(province);
         await _context.SaveChangesAsync(cancellationToken);

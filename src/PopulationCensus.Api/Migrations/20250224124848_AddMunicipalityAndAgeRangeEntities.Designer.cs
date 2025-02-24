@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PopulationCensus.Api.Data;
 
@@ -11,9 +12,11 @@ using PopulationCensus.Api.Data;
 namespace PopulationCensus.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250224124848_AddMunicipalityAndAgeRangeEntities")]
+    partial class AddMunicipalityAndAgeRangeEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,9 +267,19 @@ namespace PopulationCensus.Api.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("RoleId1")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId1")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
@@ -320,15 +333,27 @@ namespace PopulationCensus.Api.Migrations
 
             modelBuilder.Entity("PopulationCensus.Api.Entities.UserRole", b =>
                 {
+                    b.HasOne("PopulationCensus.Api.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PopulationCensus.Api.Entities.Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoleId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PopulationCensus.Api.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PopulationCensus.Api.Entities.User", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

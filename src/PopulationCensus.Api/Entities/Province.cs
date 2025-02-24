@@ -4,6 +4,8 @@ public class Province : Entity
 {
     public string Name { get; private set; }
 
+    public IEnumerable<Municipality>? Municipalities { get; set; }
+
     public static Province Create(string name)
     {
         return new Province

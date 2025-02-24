@@ -10,6 +10,10 @@ public class ProvinceMapping : IEntityTypeConfiguration<Province>
             .HasColumnType("varchar(50)")
             .IsRequired();
 
+        builder.HasMany(x => x.Municipalities)
+            .WithOne(x => x.Province)
+            .HasForeignKey(x => x.ProvinceId);
+
         builder.ToTable("Provinces");
     }
 }

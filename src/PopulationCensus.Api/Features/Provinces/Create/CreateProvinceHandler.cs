@@ -7,7 +7,7 @@ public class CreateProvinceCommandValidation : AbstractValidator<CreateProvinceC
     public CreateProvinceCommandValidation()
     {
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage(String.Format(ErrorMessages.IdRequired, "nome"))
+            .NotEmpty().WithMessage(String.Format(ErrorMessages.IsRequired, "nome"))
             .MinimumLength(3).WithMessage(String.Format(ErrorMessages.MinimumLength, "nome", 3));
     }
 }

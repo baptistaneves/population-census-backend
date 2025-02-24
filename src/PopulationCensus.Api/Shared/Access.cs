@@ -3,6 +3,7 @@
 public static class Access
 {
     public const string Province = "Província";
+    public const string Municipality = "Província";
 
     public const string View = "Visualizar";
 

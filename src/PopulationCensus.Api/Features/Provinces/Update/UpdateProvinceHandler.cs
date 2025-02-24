@@ -7,11 +7,11 @@ public class UpdateProvinceCommandValidation : AbstractValidator<UpdateProvinceC
     public UpdateProvinceCommandValidation()
     {
         RuleFor(x => x.Id)
-            .NotNull().WithMessage("O Id do campo deve ser informado")
-            .NotEqual(Guid.Empty).WithMessage("O Id do campo deve ser informado");
+            .NotNull().WithMessage(ErrorMessages.IdNotValid)
+            .NotEqual(Guid.Empty).WithMessage(ErrorMessages.IdNotValid);
 
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage(String.Format(ErrorMessages.IdRequired, "nome"))
+            .NotEmpty().WithMessage(String.Format(ErrorMessages.IsRequired, "nome"))
             .MinimumLength(3).WithMessage(String.Format(ErrorMessages.MinimumLength, "nome", 3));
     }
 }
@@ -29,7 +29,7 @@ public class UpdateProvinceHandler
         var validationResult = await CommandValidator.ValidateAsync(command, _validator);
 
         if (!validationResult.IsSuccess)
-            return Result<bool>.Failure(validationResult.Errors);
+            return Result<bool>.Failure(validationResult.Errors!);
 
         var province = await _context.Provinces.SingleOrDefaultAsync(x => x.Id == command.Id);
 
